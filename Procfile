@@ -1,1 +1,1 @@
-app:app 
+mailChimp:app 

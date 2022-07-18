@@ -46,11 +46,11 @@ app.post("/signup", (req, res) => {
 
   // Set all options
   const options = {
-    url: "https://us13.api.mailchimp.com/3.0/lists/a1204496a9",
+    url: "https://us13.api.mailchimp.com/3.0/lists/yourList",
     method: "POST",
     // API key in header
     headers: {
-      Authorization: "auth d4056e7083dd3c1b4ba4f4ed2552155a-us13",
+      Authorization: "auth yourcode-us13",
     },
     // postData as payload
     body: postData,

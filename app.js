@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static("public")));
 
 // Signup Route /signup - req,res as parameters - get data in the form
 // Here will log extended form of req.body as json, display 'hello' in resonse on page
@@ -71,7 +72,7 @@ app.post("/signup", (req, res) => {
   });
 });
 
-//  public folder where html files serverd from
+//  public folder where html files served from
 
 const PORT = process.env.PORT || 5000;
 

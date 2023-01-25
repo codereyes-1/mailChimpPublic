@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static("public")));
 
+app.get("/favicon.ico", (req, res) => {
+  res.redirect("/index.html");
+});
+
 // Signup Route /signup - req,res as parameters - get data in the form
 // Here will log extended form of req.body as json, display 'hello' in resonse on page
 app.post("/signup", (req, res) => {
@@ -51,7 +55,7 @@ app.post("/signup", (req, res) => {
     method: "POST",
     // API key in header
     headers: {
-      Authorization: "auth 3b6bff77fa5af57dfa83cd5350bb60e0-us13-us13",
+      Authorization: "auth ",
     },
     // postData as payload
     body: postData,

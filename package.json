@@ -2,7 +2,7 @@
   "name": "mailchimp",
   "version": "1.0.0",
   "description": "Simple newsletter app using Mailchimp",
-  "main": "public/index.html",
+  "main": "app.js",
   "scripts": {
     "start": "node app",
     "dev": "nodemon app"

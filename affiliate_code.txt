@@ -13,3 +13,90 @@ div with the pictures:
                             Click Here
                           </a>
                     </div>
+
+
+
+sudo systemctl start nginx
+sudo vi /etc/nginx/sites-available/default
+sudo pm2 restart 0
+sudo nginx -s reload
+sudo vi /etc/nginx/sites-available/default
+sudo nginx -s reload
+sudo vi /etc/nginx/sites-available/default
+sudo nginx -s reload
+sudo vi /etc/nginx/sites-available/default
+sudo vi webpack.config.js
+
+
+1. sites-available/default to /index.html
+1. webpack: point to app.js
+
+
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    mode: 'development',
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                loader: 'babel-loader'
+            }
+        ]
+    },
+    plugins: [new HtmlWebpackPlugin({
+        template: './opt/mailchimp/public/index.html'
+    })],
+    devServer: {
+        historyApiFallback: true
+    }
+}
+
+
+MAILCHIMP
+server {
+  listen 80 default_server;
+  server_name _;
+
+   #react app & front-end files
+  location / {
+    root /opt/mailChimp/public;
+    try_files $uri /index.html;
+  }
+
+  # node api reverse proxy
+  location /signup {
+    root /opt/mailChimp;
+    try_files $uri /app.js =404;
+    add_header 'Access-ControlAllow-Origin' '*';
+    proxy_pass "http://localhost:5000";
+  }
+}
+
+
+
+
+
+
+DEVPARTY
+server {
+  listen 80 default_server;
+  server_name _;
+
+  # react app & front-end files
+  location / {
+    root /opt/devParty/client/build;
+    try_files $uri /index.html;
+  }
+
+  # node api reverse proxy
+  location /api {
+    root /opt/devParty/routes/api;
+    try_files $uri /api/auth.js =404;
+    add_header 'Access-ControlAllow-Origin' '*';
+    proxy_pass "http://localhost:5000/";
+  }
+}

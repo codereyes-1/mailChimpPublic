@@ -1,13 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .image-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    
+        .image-preview img {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
     <link rel="stylesheet" href="https://bootswatch.com/5/slate/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/d6075b1921.js" crossorigin="anonymous"></script>
+    <script>
+        function previewImage(event) {
+            const previewContainer = document.getElementById("image-preview");
+            previewContainer.innerHTML = ""; // Clear previous preview
+
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function () {
+                    const image = document.createElement("img");
+                    image.src = reader.result;
+                    image.classList.add("img-thumbnail");
+
+                    const fileName = document.createElement("span");
+                    fileName.textContent = file.name;
+
+                    const removeButton = document.createElement("button");
+                    removeButton.textContent = "Remove";
+                    removeButton.classList.add("btn", "btn-danger", "btn-sm", "btn-block"); // Add btn-block class
+                    removeButton.addEventListener("click", function () {
+                        removeImagePreview(previewContainer);
+                    });
+
+                    const imagePreview = document.createElement("div");
+                    imagePreview.classList.add("image-preview");
+                    imagePreview.appendChild(image);
+                    imagePreview.appendChild(fileName);
+                    imagePreview.appendChild(removeButton);
+
+                    previewContainer.appendChild(imagePreview);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImagePreview(previewContainer) {
+            previewContainer.innerHTML = ""; // Clear the preview container
+            document.getElementById("image").value = ""; // Clear the file input value
+        }
+    </script>
     <title>FourthWall</title>
 </head>
+
 <body>
     <div class="container">
         <section class="row mt-5 text-center">
@@ -16,7 +74,7 @@
                 <h1 class="display-2">FourthWall</h1>
                 <h2 class="display-4">Augmented Reality Technologies</h2>
                 <p class="lead"> Complete the form below for a free estimate!
-                <form action="/signup" method="POST">
+                <form action="/signup" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="text" name="firstName" id="first-name" class="form-control"
                             placeholder="First Name" />
@@ -28,6 +86,14 @@
                     <div class="form-group">
                         <input type="email" name="email" id="email" class="form-control" placeholder="Email" />
                     </div>
+                    <!-- <div class="form-group">
+                        <input type="file" name="image" id="image" class="form-control-file" accept="image/*" />
+                    </div> -->
+                    <div class="form-group">
+                        <input type="file" name="image" id="image" class="form-control-file" accept="image/*"
+                            onchange="previewImage(event)" />
+                    </div>
+                    <div id="image-preview"></div> <!-- Placeholder for image preview -->
                     </p>
                     <button type="submit" class="btn btn-primary btn-block"> SUBMIT </button>
                 </form>

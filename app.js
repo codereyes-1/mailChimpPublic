@@ -10,10 +10,28 @@ const mongoose = require("mongoose");
 const app = express();
 
 
+const connectionString = "mongodb+srv://m001-student:m001-password@sandbox.7wsam.mongodb.net/fourthwall?retryWrites=true&w=majority"
+
+// const connection = mongoose.connect(connectionString)
+
+// const connectionString = "mongodb+srv://m001-student:m001-password@sandbox.7wsam.mongodb.net/fourthwall?retryWrites=true&w=majority"
+
+
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://m001-student:m001-password@sandbox.7wsam.mongodb.net/fourthwall?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(connectionString)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+// const connect = async () => {
+//   try {
+//     await mongoose.connect(connectionString)
+//     console.log('MongoDB Connected...')
+//   } catch (err) {
+//     console.log(err.message)
+//     // exit process with failure
+//     process.exit(1)
+//   }
+// }
 
 // Create a schema for the data you want to save in MongoDB
 const formDataSchema = new mongoose.Schema({
@@ -26,6 +44,8 @@ const formDataSchema = new mongoose.Schema({
 
 // Create a model based on the schema
 const FormData = mongoose.model("requests", formDataSchema);
+
+
 
 
 
@@ -58,7 +78,6 @@ app.post("/signup", (req, res) => {
     members: [
       {
         email_address: email,
-        status: "subscribed",
         merge_fields: {
           FNAME: firstName,
           LNAME: lastName,
@@ -70,19 +89,27 @@ app.post("/signup", (req, res) => {
 
   //   Stringify the data
 
+  
   const postData = JSON.stringify(data);
+  const formData = new FormData();
+  formData.firstName = firstName;
+  formData.lastName = lastName;
+  formData.email = email;
+  formData.image = fs.readFileSync(newPath);
+  formData.save();
 
-// Set all options
-  const options = {
-    url: "https://us13.api.mailchimp.com/3.0/lists/a1204496a9",
-    method: "POST",
-    // API key in header
-    headers: {
-      Authorization: "auth 3b6bff77fa5af57dfa83cd5350bb60e0-us13-us13",
-    },
-    // postData as payload
-    body: postData,
-  };
+
+// // Set all options
+//   const options = {
+//     url: "https://us13.api.mailchimp.com/3.0/lists/a1204496a9",
+//     method: "POST",
+//     // API key in header
+//     headers: {
+//       Authorization: "auth 3b6bff77fa5af57dfa83cd5350bb60e0-us13-us13",
+//     },
+//     // postData as payload
+//     body: postData,
+//   };
 
   // Request with options and callback to handle response
   // Check for error, send to fail. If not fail, check response code is 200, redir > 200. If not, redir to fail
@@ -91,9 +118,8 @@ app.post("/signup", (req, res) => {
       res.redirect("/fail.html");
     } else {
       if (response.statusCode === 200) {
+        postData.save();
         res.redirect("/success.html");
-      } else {
-        res.redirect("/fail.html");
       }
     }
   });

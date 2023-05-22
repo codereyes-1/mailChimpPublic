@@ -73,8 +73,8 @@
                 <!-- <h1><i class="fas fa-newspaper fa-2x"></i></h1> -->
                 <h1 class="display-2">FourthWall</h1>
                 <h2 class="display-4">Augmented Reality Technologies</h2>
-                <p class="lead"> Complete the form below for a free estimate!
-                <form action="/signup" method="POST" enctype="multipart/form-data">
+                <p class="lead"> Complete the form below for a free estimate! </p>
+                <form action="/signup" method="POST" >
                     <div class="form-group">
                         <input type="text" name="firstName" id="first-name" class="form-control"
                             placeholder="First Name" />
@@ -86,15 +86,11 @@
                     <div class="form-group">
                         <input type="email" name="email" id="email" class="form-control" placeholder="Email" />
                     </div>
-                    <!-- <div class="form-group">
-                        <input type="file" name="image" id="image" class="form-control-file" accept="image/*" />
-                    </div> -->
                     <div class="form-group">
                         <input type="file" name="image" id="image" class="form-control-file" accept="image/*"
                             onchange="previewImage(event)" />
                     </div>
-                    <div id="image-preview"></div> <!-- Placeholder for image preview -->
-                    </p>
+                    <div id="image-preview"></div> Placeholder for image preview
                     <button type="submit" class="btn btn-primary btn-block"> SUBMIT </button>
                 </form>
             </div>
